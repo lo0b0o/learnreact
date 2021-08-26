@@ -1,4 +1,15 @@
+import { func } from "prop-types";
 import React from "react";
+
+class Developer {
+  constructor(firstName, secondName) {
+    this.firstName = firstName;
+    this.secondName = secondName;
+  }
+  getName() {
+    return this.firstName + ' ' + this.secondName;
+  }
+}
 
 
 const list = [
@@ -20,32 +31,39 @@ const list = [
   },
 ];
 
-function List() {
-  return (
-    list.map(item =>
-      <div key={item.objectID}>
-        <span><a href={item.url}>{item.title}</a></span>
-        <span>{item.author}</span>
-        <span>{item.num_comments} </span>
-        <span>{item.points} </span>
-      </div>
-    )
-  )
-}
-
-
-
-
-function App() {
-  return (
-    <div>
-      <h1>Hello React</h1>
-      <label htmlFor="search">Search:</label>
-      <input id="search" type="text" />
-      <hr />
-      <List />
+const List = () =>
+  list.map(item =>
+    <div key={item.objectID}>
+      <span><a href={item.url}>{item.title}</a></span>
+      <span>{item.author}</span>
+      <span>{item.num_comments} </span>
+      <span>{item.points} </span>
     </div>
   );
-}
+
+// function List(){
+//   const robin = new Developer('Robin', 'Wieruch');
+//   const dennis = new Developer('Dennis', 'Wieruch');
+//   return(
+//     <div>
+//       {robin.getName()};
+//       {dennis.getName()};
+//     </div>
+//   );
+// }
+
+
+
+
+const App = () => (
+  <div>
+    <h1>My Hacker Stories</h1>
+    <label htmlFor="search">Search:</label>
+    <input id="search" type="text" />
+    <hr />
+    <List />
+  </div>
+);
+
 
 export default App;
