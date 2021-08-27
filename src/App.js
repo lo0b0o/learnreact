@@ -38,17 +38,30 @@ const Item = ({ item }) => (
 //   );
 // }
 
-const Search = ({ onSearch, search }) =>
-
+const InputWithLabel = ({ id, label, value, onInputChange }) => (
   <>
-    <label htmlFor="search">Search:</label>
+    <label htmlFor={id}>{label} </label>
+    &nbsp;
     <input
-      id="search"
+      id={id}
       type="text"
-      onChange={onSearch}
-      value={search}
+      onchange={onInputChange}
+      value={value}
     />
   </>
+)
+
+// const Search = ({ onSearch, search }) =>
+
+//   <>
+//     <label htmlFor="search">Search:</label>
+//     <input
+//       id="search"
+//       type="text"
+//       onChange={onSearch}
+//       value={search}
+//     />
+//   </>
 
 const useSemiPersistantState = (key, initialState) => {
   const [value, setValue] =
@@ -89,7 +102,8 @@ const App = () => {
   return (
     <div>
       <h1>My Hacker Stories</h1>
-      <Search onSearch={handleSearch} search={searchTerm} />
+      {/* <Search onSearch={handleSearch} search={searchTerm} /> */}
+      <InputWithLabel id='search' value={searchTerm} onInputChange={handleSearch} label='Search'/>
       <hr />
       <List list={searchedStories} />
     </div>
