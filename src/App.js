@@ -50,7 +50,12 @@ const Search = ({ onSearch, search }) =>
     />
   </>
 
-
+const useSemiPersistantState = (key, initialState) => {
+  const [value, setValue] =
+    React.useState(localStorage.getItem(key) || initialState);
+  React.useEffect(() => localStorage.setItem(key, value), [value, key]);
+  return [value, setValue];
+}
 
 const App = () => {
   const stories = [
@@ -71,9 +76,9 @@ const App = () => {
       objectID: 1,
     },
   ];
-  const [searchTerm, setSearchTerm] =
-    React.useState(localStorage.getItem('search') || 'react');
-  React.useEffect(() => localStorage.setItem('search', searchTerm), [searchTerm]);
+
+  const [searchTerm, setSearchTerm] = useSemiPersistantState('search', 'React');
+
   const handleSearch = event => {
     setSearchTerm(event.target.value);
     // localStorage.setItem('search', event.target.value);
