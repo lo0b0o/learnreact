@@ -48,6 +48,7 @@ const InputWithLabel = ({ id, children, value, onInputChange, type, isFocused })
   const inputRef = React.useRef();
   React.useEffect(() => {
     if (isFocused && inputRef.current) {
+      // console.log(isFocused)
       inputRef.current.focus();
     }
   }, [isFocused])
@@ -60,7 +61,7 @@ const InputWithLabel = ({ id, children, value, onInputChange, type, isFocused })
         ref={inputRef}
         id={id}
         type={type}
-        onchange={onInputChange}
+        onChange={onInputChange}
         value={value}
       />
     </>
