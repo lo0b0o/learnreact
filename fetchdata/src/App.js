@@ -1,6 +1,7 @@
 import React from 'react';
+import axios from 'axios';
 
-const API_ENDPOINT =  'https://hn.algolia.com/api/v1/search?query=';
+const API_ENDPOINT = 'https://hn.algolia.com/api/v1/search?query=';
 
 
 const useSemiPersistentState = (key, initialState) => {
@@ -53,7 +54,7 @@ const App = () => {
     'search',
     'React'
   );
-  const [url,setUrl]=React.useState(`{API_ENDPOINT}${searchTerm}`)
+  const [url, setUrl] = React.useState(`{API_ENDPOINT}${searchTerm}`)
 
   const [stories, dispatchStories] = React.useReducer(
     storiesReducer,
@@ -63,8 +64,7 @@ const App = () => {
   const handleFetchStories = React.useCallback(() => {
     dispatchStories({ type: 'STORIES_FETCH_INIT' });
 
-    fetch(url)
-      .then(response => response.json())
+    axios.get(url)
       .then(result => {
         dispatchStories({
           type: 'STORIES_FETCH_SUCCESS',
@@ -89,6 +89,7 @@ const App = () => {
 
   const handleSearch = event => {
     setSearchTerm(event.target.value);
+    event.preventDefault();
   };
 
   const handleSearchInput = event => {
@@ -99,26 +100,26 @@ const App = () => {
     setUrl(`${API_ENDPOINT}${searchTerm}`);
   };
 
- 
+
 
   return (
     <div>
       <h1>My Hacker Stories</h1>
+      <form onSubmit={handleSearchSubmit}>
+        <InputWithLabel
+          id="search"
+          value={searchTerm}
+          isFocused
+          onInputChange={handleSearch}
+        >
+          <strong>Search:</strong>
+        </InputWithLabel>
 
-      <InputWithLabel
-        id="search"
-        value={searchTerm}
-        isFocused
-        onInputChange={handleSearch}
-      >
-        <strong>Search:</strong>
-      </InputWithLabel>
-
-      <button type="button"
-      disabled={!searchTerm}
-      onClick={handleSearchSubmit}>
-        Submit
-      </button>
+        <button type="button"
+          disabled={!searchTerm}>
+          Submit
+        </button>
+      </form>
 
       <hr />
 
@@ -127,11 +128,11 @@ const App = () => {
       {stories.isLoading ? (
         <p>Loading ...</p>
       ) : (
-          <List
-            list={stories.data}
-            onRemoveItem={handleRemoveStory}
-          />
-        )}
+        <List
+          list={stories.data}
+          onRemoveItem={handleRemoveStory}
+        />
+      )}
     </div>
   );
 };
